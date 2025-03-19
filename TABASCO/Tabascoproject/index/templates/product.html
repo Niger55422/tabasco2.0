@@ -21,10 +21,17 @@
           <input type="search" class="form-control form-control-dark text-white" placeholder="Search..." aria-label="Search">
         </form>
 
+        {% if user.is_authenticated %}
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Войти</button>
-          <button type="button" class="btn btn-warning">Регистрация</button>
+          <button type="button" class="btn btn-outline-light me-2"><a href="/account/login" class="text-white text-decoration-none">Выйти</a> </button>
+          <button type="button" class="btn btn-warning"><a href="/register" class="text-dark text-decoration-none">Корзина({{cart}})</a></button>
         </div>
+        {% else %}
+          <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2"><a href="/account/login" class="text-white text-decoration-none">Войти</a> </button>
+          <button type="button" class="btn btn-warning"><a href="/register" class="text-dark text-decoration-none">Зарегистироваться</a></button>
+        </div>
+          {% endif %}
       </div>
     </div>
     <hr class="text-white">
@@ -38,8 +45,17 @@
         <h1 class="display-5 fw-bold text-white lh-1 mb-3">{{ product }}</h1>
         <p class="lead text-white">{{ product.product_des }}</p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            {% if user.is_authenticated %}
+            <form action="/to-cart/{{product.id}}" method="post">
+                {% csrf_token %}
+                <input type="number" min="1" value="1" placeholder="Количество товара" name="pr_count">
+                          <button type="submit" class="btn btn-primary btn-lg px-4 me-md-2">Добавить в корзину</button>
+          <button type="button" class="btn btn-outline-secondary btn-lg px-4">${{ product.product_price }}</button>
+            </form>
+            {% else %}
           <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Купить</button>
           <button type="button" class="btn btn-outline-secondary btn-lg px-4">${{ product.product_price }}</button>
+            {% endif %}
         </div>
       </div>
     </div>

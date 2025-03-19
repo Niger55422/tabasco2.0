@@ -17,14 +17,22 @@
           <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-white" placeholder="Search..." aria-label="Search">
-        </form>
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="post">
+            {% csrf_token%}
 
+          <input name="search_product"  type="search" class="form-control form-control-dark text-black" placeholder="Search..." aria-label="Search">
+        </form>
+        {% if user.is_authenticated %}
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Войти</button>
-          <button type="button" class="btn btn-warning">Регистрация</button>
+          <button type="button" class="btn btn-outline-light me-2"><a href="/logout" class="text-white text-decoration-none">Выйти</a> </button>
+          <button type="button" class="btn btn-warning"><a href="/cart" class="text-dark text-decoration-none">Корзина({{cart_l}})</a></button>
         </div>
+        {% else %}
+          <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2"><a href="/account/login" class="text-white text-decoration-none">Войти</a> </button>
+          <button type="button" class="btn btn-warning"><a href="/register" class="text-dark text-decoration-none">Зарегистироваться</a></button>
+        </div>
+          {% endif %}
       </div>
     </div>
     <hr class="text-white">
